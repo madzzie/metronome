@@ -28,7 +28,27 @@ class Metronome extends Component {
     };
 
     startStop = () => {
-        this.click1.play();
+        if (this.state.playing) {
+            // Stop the timer
+            clearInterval(this.timer);
+            this.setState({
+                playing: false
+            });
+        } else {
+            // Start a timer with the current BPM
+            this.timer = setInterval(
+                this.playClick,
+                (60 / this.state.bpm) * 1000
+            );
+            this.setState(
+                {
+                    count: 0,
+                    playing: true
+                    // Play a click "immediately" (after setState finishes)
+                },
+                this.playClick
+            );
+        }
     };
 
     render() {
